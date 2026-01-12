@@ -1,0 +1,70 @@
+name: Pytest + Allure Report
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright Browsers
+        run: playwright install
+
+      - name: Run tests with pytest + allure
+        run: pytest --alluredir=allure-results
+
+      - name: Install Allure CLI
+        if: always()
+        run: npm install -g allure-commandline --save-dev
+
+        # Baixa o histórico do último relatório publicado
+      - name: Restore Allure history
+        if: always()
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # Copiar o histórico para dentro do allure-results
+      - name: Copy Allure history
+        if: always()
+        run: |
+          if [ -d gh-pages/history ]; then
+            mkdir -p allure-results/history
+            cp -r gh-pages/history/* allure-results/history/
+          fi
+
+      - name: Generate Allure Report
+        if: always()
+        run: allure generate allure-results -o allure-report
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: results/
+
+      - name: Deploy report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report
