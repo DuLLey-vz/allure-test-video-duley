@@ -50,7 +50,7 @@ def test_ct02_senha_invalida(page):
 def test_ct03_usuario_invalido(page):
     acessar_login(page)
     page.wait_for_timeout(4500)
-    preencher_login(page, "ee", VALID_PASS)
+    preencher_login(page, "", VALID_PASS)
     page.wait_for_timeout(4500)
 
     visible = page.locator("text=Invalid credentials").is_visible()
