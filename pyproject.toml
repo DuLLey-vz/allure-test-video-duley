@@ -1,6 +1,0 @@
-[tool.pytest.ini_options]
-testpaths = ["test"]
-addopts = [
-    "--alluredir", "allure-results",
-    "--video", "retain-on-failure",
-]
