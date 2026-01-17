@@ -6,4 +6,4 @@ test-v2
 .env
 .venv
 INFO.txt
-test.yml
+pull_test.yml
