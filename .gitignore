@@ -6,4 +6,4 @@ test-v2
 .env
 .venv
 INFO.txt
-pull_test.yml
+pull_test_artefact.yml
