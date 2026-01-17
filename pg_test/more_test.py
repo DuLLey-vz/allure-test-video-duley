@@ -82,7 +82,7 @@ def test_ct04_usuario_senha_invalidos(page):
 def test_ct05_usuario_vazio(page):
     acessar_login(page)
     page.wait_for_timeout(4500)
-    preencher_login(page, "", VALID_PASS)
+    preencher_login(page, "abc", VALID_PASS)
     page.wait_for_timeout(4500)
 
     visible = page.locator("text=Required").is_visible()
