@@ -5,3 +5,4 @@ allure-report
 test-v2
 .env
 .venv
+INFO.txt
