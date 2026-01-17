@@ -6,3 +6,4 @@ test-v2
 .env
 .venv
 INFO.txt
+test.yml
