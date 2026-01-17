@@ -1,0 +1,12 @@
+-> Essa pasta contem testes com relatórios gerados com allure reports e videos apresentando erros quando algum teste falha.
+
+ARQUIVOS ENVOLVIDOS:
+
+    => pyproject.toml (na raiz do projeto)
+    => conftest.py (na raiz do projeto)
+    => pg_test/more_test.py
+
+FONTES PARA GERAR RELATÓRIOS COM ALLURE JUNTAMENTE COM VIDEO:
+
+    => https://github.com/allure-examples/guide-pytest-playwright-video
+    => https://allurereport.org/docs/guides/pytest-playwright-video/#_4-attaching-videos-to-an-allure-report
