@@ -74,7 +74,7 @@ jobs:
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.personal_token }}
+          personal_token: ${{ secrets.PERSONAL_TOKEN }}
           publish_dir: allure-report
           publish_branch: gh-pages
           external_repository: DuLley-vz/allure-test-video-duley
