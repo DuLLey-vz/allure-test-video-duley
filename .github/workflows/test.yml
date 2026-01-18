@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: []
 
 jobs:
   test:
@@ -71,24 +71,23 @@ jobs:
       #     publish_dir: allure-report
 
       - name: Deploy report to GitHub Pages
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name != 'pull_request'
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}
           publish_dir: allure-report
           publish_branch: gh-pages
-          external_repository: DuLley-vz/allure-test-video-duley
-          enable_jekyll: false
+          external_repository: DuLLey-vz/allure-test-video-duley
 
-      - name: Comment PR with Allure link
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `📊 **Allure Report disponível:**  
-            👉 https://dulley-vz.github.io/allure-test-video-duley/`
-            })
+      # - name: Comment PR with Allure link
+      #   if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+      #   uses: actions/github-script@v7
+      #   with:
+      #     script: |
+      #       github.rest.issues.createComment({
+      #       issue_number: context.issue.number,
+      #       owner: context.repo.owner,
+      #       repo: context.repo.repo,
+      #       body: `📊 **Allure Report disponível:**
+      #       👉 https://dulley-vz.github.io/allure-test-video-duley/`
+      #       })
