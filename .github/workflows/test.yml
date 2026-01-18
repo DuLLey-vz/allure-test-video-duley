@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    name: "CI Tests ✅ | 📊 Allure no Summary"
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -79,8 +80,16 @@ jobs:
           external_repository: DuLLey-vz/allure-test-video-duley
           publish_branch: gh-pages
 
-      - name: Publish Allure link to Job Summary
-        if: success()
+      # - name: Publish Allure link to Job Summary
+      #   if: success()
+      #   run: |
+      #     echo "## 📊 Allure Report" >> $GITHUB_STEP_SUMMARY
+      #     echo "👉 https://dulley-vz.github.io/allure-test-video-duley/" >> $GITHUB_STEP_SUMMARY
+
+      - name: Publish Allure link to Summary
         run: |
           echo "## 📊 Allure Report" >> $GITHUB_STEP_SUMMARY
-          echo "👉 https://dulley-vz.github.io/allure-test-video-duley/" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "👉 **Relatório disponível:**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 https://dulley-vz.github.io/allure-test-video-duley/" >> $GITHUB_STEP_SUMMARY
