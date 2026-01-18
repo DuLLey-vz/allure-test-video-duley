@@ -74,10 +74,11 @@ jobs:
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          personal_token: ${{ secrets.GH_PAGES_TOKEN }}
           publish_dir: allure-report
           publish_branch: gh-pages
           external_repository: DuLley-vz/allure-test-video-duley
+          enable_jekyll: false
 
       - name: Comment with Allure Report link
         if: github.event_name == 'pull_request'
