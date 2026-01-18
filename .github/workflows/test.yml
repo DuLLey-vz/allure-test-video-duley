@@ -63,9 +63,19 @@ jobs:
           name: test-results
           path: results/
 
-      - name: Deploy report to GitHub Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v4
+      # - name: Deploy report to GitHub Pages
+      #   if: always()
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: allure-report
+
+      - name: Comment with Allure Report link
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-report
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ✅ Relatório Allure disponível em:
+            🔗 https://DuLley-vz.github.io/allure-test-video-duley/
