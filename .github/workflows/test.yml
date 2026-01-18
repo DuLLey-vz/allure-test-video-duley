@@ -71,7 +71,7 @@ jobs:
       #     publish_dir: allure-report
 
       - name: Deploy report to GitHub Pages
-        if: always()
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}
@@ -80,12 +80,15 @@ jobs:
           external_repository: DuLley-vz/allure-test-video-duley
           enable_jekyll: false
 
-      - name: Comment with Allure Report link
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/create-or-update-comment@v3
+      - name: Comment PR with Allure link
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/github-script@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ✅ Relatório Allure disponível em:
-            🔗 https://DuLley-vz.github.io/allure-test-video-duley/
+          script: |
+            github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `📊 **Allure Report disponível:**  
+            👉 https://dulley-vz.github.io/allure-test-video-duley/`
+            })
