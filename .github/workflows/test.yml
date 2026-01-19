@@ -85,7 +85,7 @@ jobs:
       # Deploy v3
       # 🔐 DEPLOY — SOMENTE EM PUSH (repo do DuLLey)
       - name: Deploy Allure to GitHub Pages (DuLLey-vz)
-        if: github.event_name == 'push'
+        if: always() && github.event_name == 'push' && github.repository == 'DuLLey-vz/allure-test-video'
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}
