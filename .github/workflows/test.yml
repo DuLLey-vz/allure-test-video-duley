@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
+      pull-requests: read
 
     steps:
       - name: Checkout
@@ -21,7 +21,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.14"
+          python-version: "3.11"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -83,9 +83,9 @@ jobs:
       #     publish_branch: gh-pages
 
       # Deploy v3
-      # 🔐 DEPLOY — acontece no repo do DuLLey
-      - name: Deploy Allure to GitHub Pages (DuLLey)
-        if: github.event.pull_request.head.repo.full_name == github.repository
+      # 🔐 DEPLOY — SOMENTE EM PUSH (repo do DuLLey)
+      - name: Deploy Allure to GitHub Pages (DuLLey-vz)
+        if: github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}
