@@ -1,0 +1,1 @@
+[CT-06] - PASS - Mensagem "Required" exibida corretamente 
