@@ -1,4 +1,4 @@
-name: Deploy Allure Report (DuLLey)
+name: Deploy Allure Report (DuLLey-vz)
 
 on:
   push:
