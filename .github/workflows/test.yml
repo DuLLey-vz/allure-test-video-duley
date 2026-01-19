@@ -64,6 +64,7 @@ jobs:
           name: test-results
           path: results/
 
+      # Deploy original
       # - name: Deploy report to GitHub Pages
       #   if: always()
       #   uses: peaceiris/actions-gh-pages@v4
@@ -71,7 +72,19 @@ jobs:
       #     github_token: ${{ secrets.GITHUB_TOKEN }}
       #     publish_dir: allure-report
 
-      - name: Deploy Allure
+      # Deploy v2 (não ocorre deploy no repo do DuLLey-vz)
+      # - name: Deploy Allure
+      #   if: github.event.pull_request.head.repo.full_name == github.repository
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   with:
+      #     personal_token: ${{ secrets.GH_PAGES_TOKEN }}
+      #     publish_dir: allure-report
+      #     external_repository: DuLLey-vz/allure-test-video-duley
+      #     publish_branch: gh-pages
+
+      # Deploy v3
+      # 🔐 DEPLOY — acontece no repo do DuLLey
+      - name: Deploy Allure to GitHub Pages (DuLLey)
         if: github.event.pull_request.head.repo.full_name == github.repository
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -79,6 +92,7 @@ jobs:
           publish_dir: allure-report
           external_repository: DuLLey-vz/allure-test-video-duley
           publish_branch: gh-pages
+          enable_jekyll: false
 
       # - name: Publish Allure link to Job Summary
       #   if: success()
