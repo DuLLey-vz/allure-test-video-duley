@@ -7,3 +7,4 @@ test-v2
 .venv
 INFO.txt
 pull_test_artefact.yml
+test.yml
