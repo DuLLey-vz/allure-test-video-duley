@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"9f050d83b3a162238e985c812fd5401e","name":"pg_test","statistic":{"failed":0,"broken":0,"skipped":0,"passed":8,"unknown":0,"total":8}}]}
+{"total":1,"items":[{"uid":"9f050d83b3a162238e985c812fd5401e","name":"pg_test","statistic":{"failed":1,"broken":0,"skipped":0,"passed":7,"unknown":0,"total":8}}]}
