@@ -30,9 +30,11 @@ jobs:
         run: pytest --alluredir=allure-results
 
       - name: Install Allure CLI
+        if: always()
         run: npm install -g allure-commandline --save-dev
 
       - name: Restore Allure history
+        if: always()
         uses: actions/checkout@v4
         with:
           ref: gh-pages
@@ -40,6 +42,7 @@ jobs:
         continue-on-error: true
 
       - name: Copy Allure history
+        if: always()
         run: |
           if [ -d gh-pages/history ]; then
             mkdir -p allure-results/history
@@ -47,9 +50,11 @@ jobs:
           fi
 
       - name: Generate Allure Report
-        run: allure generate allure-results -o allure-report --clean
+        if: always()
+        run: allure generate allure-results -o allure-report
 
       - name: Deploy Allure to GitHub Pages (DuLLey)
+        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}
