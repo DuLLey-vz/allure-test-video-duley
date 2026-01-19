@@ -8,3 +8,5 @@ test-v2
 INFO.txt
 pull_test_artefact.yml
 test.yml
+ci-pr-allure-v1.yml
+deploy-allure-v1.yml

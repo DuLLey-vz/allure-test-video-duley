@@ -1,0 +1,73 @@
+name: Deploy Allure Report (DuLLey)
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-allure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ⚡ CACHE PIP
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest --alluredir=allure-results
+
+      # ⚡ CACHE ALLURE CLI
+      - name: Cache Allure CLI
+        if: always()
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/allure
+          key: allure-${{ runner.os }}-2.27.0
+
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          if ! command -v allure &> /dev/null; then
+            npm install -g allure-commandline
+          fi
+
+      # ⚡ CACHE HISTÓRICO
+      - name: Restore Allure history
+        if: always()
+        uses: actions/cache@v4
+        with:
+          path: allure-results/history
+          key: allure-history
+
+      - name: Generate Allure report
+        if: always()
+        run: allure generate allure-results -o allure-report
+
+      #  RÁPIDO POSSÍVEL
+      - name: Deploy Allure to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.GH_PAGES_TOKEN }}
+          publish_dir: allure-report
+          publish_branch: gh-pages
+          enable_jekyll: false
