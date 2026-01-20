@@ -32,24 +32,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update       
-          sudo apt-get install -y \
-            libnss3 \
-            libatk-bridge2.0-0 \
-            libxkbcommon0 \
-            libgtk-3-0 \
-            libgbm1 \
-            libasound2
-
       - name: Install Playwright Browsers
         run: playwright install --with-deps
 
       - name: Run tests
         run: |
           mkdir -p allure-results
-          pytest --alluredir=allure-results || true
+          pytest -vv --alluredir=allure-results || true
 
       # ⚡ CACHE ALLURE CLI
       - name: Cache Allure CLI
