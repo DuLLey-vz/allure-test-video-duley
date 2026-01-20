@@ -1,8 +1,11 @@
 name: CI Tests + Allure Report to Summary
 
 on:
+  push:
+    branches: [main]
+
   pull_request:
-  push: [main]
+    branches: []
 
 permissions:
   contents: read
