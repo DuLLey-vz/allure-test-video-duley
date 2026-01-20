@@ -24,15 +24,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      # ⚡ Cache pip
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            pip-${{ runner.os }}-
-
       - name: Install dependencies
         run: pip install -r requirements.txt
 
@@ -45,14 +36,6 @@ jobs:
           mkdir -p allure-results
           pytest -vv --alluredir=allure-results
 
-      # ⚡ Cache Allure CLI
-      - name: Cache Allure CLI
-        if: always()
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/allure
-          key: allure-${{ runner.os }}-2.27.0
-
       - name: Install Allure CLI
         if: always()
         run: |
@@ -60,7 +43,6 @@ jobs:
             npm install -g allure-commandline
           fi
 
-        # ⚡ CACHE HISTÓRICO
       - name: Restore Allure history
         if: always()
         uses: actions/cache@v4
@@ -79,12 +61,26 @@ jobs:
           name: test-results
           path: results/
 
-      # 🔗 Summary (para DuLLey e ZhOWzz)
-      - name: Publish Allure Report link to Summary
+      - name: Define report version
+        if: always()
+        run: |
+          echo "REPORT_VERSION=runs/${{ github.run_id }}" >> $GITHUB_ENV
+
+      # # 🔗 Summary (para DuLLey e ZhOWzz)
+      # - name: Publish Allure Report link to Summary
+      #   if: always()
+      #   run: |
+      #     echo "## 📊 Allure Report" >> $GITHUB_STEP_SUMMARY
+      #     echo "" >> $GITHUB_STEP_SUMMARY
+      #     echo "👉 **Relatório disponível:**" >> $GITHUB_STEP_SUMMARY
+      #     echo "" >> $GITHUB_STEP_SUMMARY
+      #     echo "🔗 https://dulley-vz.github.io/allure-test-video-duley/" >> $GITHUB_STEP_SUMMARY
+
+      - name: Publish Allure link in Summary
         if: always()
         run: |
           echo "## 📊 Allure Report" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "👉 **Relatório disponível:**" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_id }}/" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🔗 https://dulley-vz.github.io/allure-test-video-duley/" >> $GITHUB_STEP_SUMMARY
+          echo "_Relatório exclusivo desta execução (sem cache)_" >> $GITHUB_STEP_SUMMARY

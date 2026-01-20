@@ -114,7 +114,7 @@ def test_ct06_senha_vazia(page):
 def test_ct07_campos_vazios(page):
     acessar_login(page)
     page.wait_for_timeout(4500)
-    preencher_login(page, VALID_USER, "")
+    preencher_login(page, VALID_USER, "007")
     page.wait_for_timeout(4500)
 
     count = page.locator("text=Required").count()
