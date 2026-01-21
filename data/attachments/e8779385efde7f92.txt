@@ -1,0 +1,1 @@
+[CT-03] - PASS - Mensagem "Invalid credentials" exibida corretamente 
