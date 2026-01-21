@@ -1,0 +1,79 @@
+name: Deploy Allure Report (DuLLey-vz)
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-allure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright Browsers
+        run: playwright install --with-deps
+
+      - name: Run tests
+        run: |
+          mkdir -p allure-results
+          pytest -vv --alluredir=allure-results
+
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          if ! command -v allure &> /dev/null; then
+            npm install -g allure-commandline
+          fi
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # - name: Restore Allure history
+      #   if: always()
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: allure-results/history
+      #     key: allure-history
+
+      - name: Restore Allure history
+        run: |
+          if [ -d gh-pages/history ]; then
+            mkdir -p allure-results/history
+            cp -r gh-pages/history/* allure-results/history/
+          fi
+
+      - name: Keep last 5 reports
+        run: |
+          cd gh-pages
+          ls -dt */ | tail -n +6 | xargs rm -rf || true
+
+      - name: Generate Allure report
+        run: |
+          allure generate allure-results \
+            --clean \
+            -o allure-report
+
+      - name: Deploy Allure to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.GH_PAGES_TOKEN }}
+          publish_dir: allure-report
+          publish_branch: gh-pages
+          enable_jekyll: false
