@@ -39,6 +39,7 @@ jobs:
           fi
 
       - name: Checkout gh-pages
+        if: always()
         uses: actions/checkout@v4
         with:
           ref: gh-pages
@@ -52,6 +53,7 @@ jobs:
       #     key: allure-history
 
       - name: Restore Allure history
+        if: always()
         run: |
           if [ -d gh-pages/history ]; then
             mkdir -p allure-results/history
@@ -59,11 +61,13 @@ jobs:
           fi
 
       - name: Keep last 5 reports
+        if: always()
         run: |
           cd gh-pages
           ls -dt */ | tail -n +6 | xargs rm -rf || true
 
       - name: Generate Allure report
+        if: always()
         run: |
           allure generate allure-results \
             --clean \

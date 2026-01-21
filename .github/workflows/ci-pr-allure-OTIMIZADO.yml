@@ -42,18 +42,21 @@ jobs:
           echo "Allure results generated"
 
       - name: Install Allure CLI
+        if: always()
         run: |
           if ! command -v allure &> /dev/null; then
             npm install -g allure-commandline
           fi
 
       - name: Restore Allure history
+        if: always()
         uses: actions/cache@v4
         with:
           path: allure-results/history
           key: allure-history
 
       - name: Generate Allure report
+        if: always()
         run: allure generate allure-results -o allure-report
 
       # 🔗 SUMMARY (LINK SEMPRE VÁLIDO)
