@@ -12,3 +12,4 @@ ci-pr-allure-v1.yml
 deploy-allure-v1.yml
 ci-pr-allure-OTIMIZADO.yml
 deploy-allure-OTIMIZADO.yml
+summary-ci-pr.yml
