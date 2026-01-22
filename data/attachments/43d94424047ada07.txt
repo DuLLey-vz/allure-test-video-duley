@@ -1,0 +1,1 @@
+[CT-07] - PASS - Mensagem 'Required' exibida para ambos os campos 
